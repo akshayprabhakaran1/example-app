@@ -1,0 +1,10 @@
+
+// rollback to the last migration we did to the database
+// information is stored in the same db as a table called
+// migration with a batch number indicating when it is created
+php artisan migrate:rollback
+
+// to start over a migration from the start
+// by dropping all the tables and recreating them
+// dont do it in production(NEVER)
+php artisan migrate:fresh 
