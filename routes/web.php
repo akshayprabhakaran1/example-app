@@ -24,11 +24,14 @@ Route::get('/', function () {
 });
 
 // where is used to add constaints to the url comming
-Route::get('posts/{post}', function ($slug) {
+//! route model binding
+// the wildcard name must be same as we pass to the function
+//                  |-----------------------|
+Route::get('posts/{post:slug}', function (Post $post) { // Post::where('slug', $post) -> first() behind the scene.
 
     //! Find a post by its slug and pass it to a view called 'post'
     return view('post', [
-        'post'=> Post::findOrFail( $slug )
+        'post'=> $post
     ]);
 
 });

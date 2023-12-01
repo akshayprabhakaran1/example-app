@@ -1,56 +1,21 @@
 <?php
 
 namespace App\Models;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\Facades\File;
-use Spatie\YamlFrontMatter\YamlFrontMatter;
 
-class Post {
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-    public $title;
-    public $excerpt;
-    public $date;
-    public $body;
-    public $slug;
- 
-    public function __construct($title, $excerpt, $date, $body, $slug) {
-        $this -> title = $title;
-        $this -> excerpt = $excerpt;
-        $this -> date = $date;
-        $this -> body = $body;
-        $this -> slug = $slug;
-    }
+class Post extends Model
+{
+    use HasFactory;
 
-    //! of all the blog posts, find the one slug
-    //! that matches the one that was requested.
-    public static function find( $slug ) {
-        return static::all() -> firstWhere("slug", $slug);   
-    }
 
-    public static function findOrFail( $slug ) {
+    //! fillable, guarded property is used to avoid mass assignment vulnarability
+    
+    //guarded will consided the id that cant be mass included
+    protected $guarded = ['id'];
+    //! if we make guarded property to a empty array we can disable the mass assignment
+    //fillable will consider the title can be mass included
+    // protected $fillable = ['title', 'excerpt', 'body'];
 
-        $post = static::find($slug);
-
-        if (!$post) {
-            throw new ModelNotFoundException();
-        }
-
-        return $post;
-    }
-
-    public static function all() {
-
-        return cache() ->rememberForever("posts.all", function() {
-            return collect(File::files(resource_path('posts')))
-                -> map(fn($file) => YamlFrontMatter::parseFile($file))
-                -> map(fn($document) => new Post(
-                    $document -> title,
-                    $document -> excerpt,
-                    $document -> date,
-                    $document -> body(),
-                    $document -> slug
-                    ))
-                -> sortByDesc('date');
-            });
-    }
 }
