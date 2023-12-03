@@ -8,3 +8,14 @@ php artisan migrate:rollback
 // by dropping all the tables and recreating them
 // dont do it in production(NEVER)
 php artisan migrate:fresh 
+
+// to create a model and migration at the same time
+php artisan make:model Category -m
+
+// mass assignment using php tinker
+Post::create(['title' => 'My Family Post', 'excerpt' => 'Excer
+pt for my post', 'body' => 'Lorem ipsum dolar sit amet','slug'=>
+'my-first-post','category_id'=>1]);
+
+// full post with user who wrote it
+App\Models\Post::with('user')->first();
