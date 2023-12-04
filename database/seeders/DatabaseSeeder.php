@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder
         // creating one user for 5 post
         // create user with only name other fields can be random
         $user = User::factory()->create([
-            "name"=> "Akshay P M",
+            "name" => "Akshay P M",
         ]);
 
-        Post::factory(5)->create([
-            "user_id"=> $user->id,
+        Post::factory(10)->create([
+            "user_id" => $user->id,
         ]);
 
         // $personal = Category::create([
