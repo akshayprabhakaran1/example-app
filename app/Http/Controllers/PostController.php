@@ -25,17 +25,20 @@ class PostController extends Controller
 
         //! the variable pass to filter() will goto the 
         //! query scope in the Elequent model
-        return view('posts', [
-            "posts" => Post::latest()->filter(request(['search', 'category']))->get(),
-            "categories" => Category::all(),
-            "currentCategory" => Category::firstWhere("slug", request("category"))
+        // posts.index is a naming convention
+        // so we add the blade components in the posts folder
+        // and name the show and index
+
+        //! with query string will paginate with the query we are currently in
+        return view('posts.index', [
+            "posts" => Post::latest()->filter(request(['search', 'category', 'author']))->paginate(6)->withQueryString()
         ]);
     }
 
     public function show(Post $post)
     {
         //! Find a post by its slug and pass it to a view called 'post'
-        return view('post', [
+        return view('posts.show', [
             'post' => $post
         ]);
     }

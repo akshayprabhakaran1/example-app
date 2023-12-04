@@ -9,30 +9,7 @@
         <!--  Category -->
         <div class="relative lg:inline-flex bg-gray-100 rounded-xl">
 
-            <x-dropdown>
-
-                <x-slot name="trigger">
-                    <button class="py-2 pl-3 pr-9 text-sm font-semibold w-full lg:w-32 text-left flex lg:inline-flex">
-                        {{ isset($currentCategory) ? ucwords($currentCategory->name) : 'Categories' }}
-                        <x-icon name="down-arrow" class="absolute pointer-events-none" style="right: 12px;" />
-                    </button>
-                </x-slot>
-
-                {{-- works with named routes --}}
-                <x-dropdown-item href="/" :active="request()->routeIs('home')">All</x-dropdown-item>
-                {{-- isset($currentCategory) && $currentCategory->is($category) --}}
-
-                {{-- check the url if the url matches with the category then true --}}
-                {{-- request()->is('categories/'. $category->slug) --}}
-                {{-- we can use wild cards too --}}
-                {{-- request()->is('*'. $category->slug) --}}
-
-                @foreach ($categories as $category)
-                    <x-dropdown-item href="/?category={{ $category->slug }}" :active="request()->is('categories/' . $category->slug)">
-                        {{ ucwords($category->name) }}
-                    </x-dropdown-item>
-                @endforeach
-            </x-dropdown>
+            <x-category-dropdown />
 
         </div>
 
@@ -60,7 +37,10 @@
 
         <!-- Search -->
         <div class="relative flex lg:inline-flex items-center bg-gray-100 rounded-xl px-3 py-2">
-            <form method="GET" action="#">
+            <form method="GET" action="/">
+                @if (request('category'))
+                    <input type="hidden" name='category' value="{{ request('category') }}">
+                @endif
                 <input type="text" name="search" placeholder="Find something"
                     class="bg-transparent placeholder-black font-semibold text-sm" value="{{ request('search') }}">
             </form>
