@@ -10,7 +10,7 @@ class SessionController extends Controller
 
     public function create()
     {
-        return view("session.create");
+        return view("sessions.create");
     }
 
     public function store()
@@ -20,16 +20,16 @@ class SessionController extends Controller
             "password" => "required"
         ]);
 
-        if (auth()->attempt($attributes)) {
+        if (!auth()->attempt($attributes)) {
+            throw ValidationException::withMessages([
+                "email" => "Your provided credential could not be verified."
+            ]);
             
-            // session fixation
-            session()->regenerate();
-            return redirect("/")->with("success", "Welcome Back!");
         }
-
-        throw ValidationException::withMessages([
-            "email" => "Your provided credential could not be verified."
-        ]);
+        
+        // session fixation
+        session()->regenerate();
+        return redirect("/")->with("success", "Welcome Back!");
 
         // same as
         // return back()
