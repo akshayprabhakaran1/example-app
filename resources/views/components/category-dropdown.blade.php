@@ -8,7 +8,7 @@
     </x-slot>
 
     {{-- works with named routes --}}
-    <x-dropdown-item href="/?{{ $category->slug }} & {{ http_build_query(request()->except('category', 'page')) }}" 
+    <x-dropdown-item href="/?{{ $categories[0]->slug }}&{{ http_build_query(request()->except('category', 'page'))}}" 
         :active="request()->routeIs('home')">All</x-dropdown-item>
     {{-- isset($currentCategory) && $currentCategory->is($category) --}}
 
