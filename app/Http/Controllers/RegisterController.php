@@ -3,17 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Rule;
 
 class RegisterController extends Controller
 {
-    public function create()
+    public function create(): View|\Illuminate\Foundation\Application|Factory|Application
     {
         return view("register.create");
     }
 
-    public function store()
+    public function store(): \Illuminate\Foundation\Application|Redirector|RedirectResponse|Application
     {
         // max length
         // min length
@@ -21,7 +26,7 @@ class RegisterController extends Controller
         // if validation fails laravel will redirect back to the previous page
         // unique:users,username telling in users table the column username should be unique
         // 'username' => 'required|min:3|max:255|unique:users,username'
-        // Rule::unique are usefull in updation because we can chain the events
+        // Rule::unique are usefully in update because we can chain the events
 
         $attributes = request()->validate([
             'name' => 'required|max:255|',

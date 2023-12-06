@@ -3,25 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
 
 class PostController extends Controller
 {
-    // to log sql querys with there corresponding binding values
+    // to log sql query's with there corresponding binding values
     // DB::listen(function ($query) {
     // log in storage->log->laravel
     // Log::info($query -> sql, $query -> bindings);
     // });
 
-    // latest will add order by constaints
+    // latest will add order by constants
     // with the use of with() we can solve the n+1 problem
     // with(["category", "author"])
-    // we can pass it seperatily or as a single array
-    // also without() method to avoid the grabing of relations
-    public function index()
+    // we can pass it separately or as a single array
+    // also without() method to avoid the grabbing of relations
+    public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
 
         //! the variable pass to filter() will goto the
-        //! query scope in the Elequent model
+        //! query scope in the Eloquent model
         // posts.index is a naming convention
         // so we add the blade components in the posts folder
         // and name the show and index
@@ -32,7 +35,7 @@ class PostController extends Controller
         ]);
     }
 
-    public function show(Post $post)
+    public function show(Post $post): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         //! Find a post by its slug and pass it to a view called 'post'
         return view('posts.show', [

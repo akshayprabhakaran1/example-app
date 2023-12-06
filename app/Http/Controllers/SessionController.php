@@ -2,18 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
 use Illuminate\Validation\ValidationException;
 
 class SessionController extends Controller
 {
 
-    public function create()
+    public function create(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
         return view("sessions.create");
     }
 
-    public function store()
+    /**
+     * @throws ValidationException
+     */
+    public function store(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $attributes = request()->validate([
             "email" => "required|email",
@@ -24,9 +31,9 @@ class SessionController extends Controller
             throw ValidationException::withMessages([
                 "email" => "Your provided credential could not be verified."
             ]);
-            
+
         }
-        
+
         // session fixation
         session()->regenerate();
         return redirect("/")->with("success", "Welcome Back!");
@@ -37,7 +44,7 @@ class SessionController extends Controller
         //     ->withErrors(["email"=> "Your provided credential could not be verified."]);
     }
 
-    public function destroy()
+    public function destroy(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         auth()->logout();
 
