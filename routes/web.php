@@ -1,25 +1,15 @@
 <?php
 
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\PostCommentsController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SessionController;
+use App\Services\Newsletter;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Validation\ValidationException;
 
-Route::get('ping', function () {
-   $mailchimp = new \MailchimpMarketing\ApiClient();
-
-   $mailchimp->setConfig([
-       'apiKey' => config('services.mailchimp.key'),
-       'server' => 'us14'
-   ]);
-
-   $response = $mailchimp->lists->addListMember('09de25205f', [
-       'email_address' => 'ambadiakshay25@gmail.com',
-       'status' => 'subscribed'
-   ]);
-   dd($response);
-});
+Route::post('newsletter', NewsletterController::class);
 
 Route::get('/', [PostController::class, 'index'])->name("home");
 
