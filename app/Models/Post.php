@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 //! elugate model
 class Post extends Model
@@ -11,8 +12,8 @@ class Post extends Model
     use HasFactory;
 
 
-    // it tell that when ever there is a request to post always 
-    // include the category and author 
+    // it tell that when ever there is a request to post always
+    // include the category and author
     // there by eleminating the n+1 problem
     protected $with = ['category', 'author'];
 
@@ -26,7 +27,7 @@ class Post extends Model
 
     //! query scope
     // Post::newQuery()->filter()
-    // first argument is passed by the laravel 
+    // first argument is passed by the laravel
     public function scopeFilter($query, array $filters)
     {
         //! only after the get() the query will execute
@@ -71,16 +72,16 @@ class Post extends Model
     {
 
         // because a post have relation to a single user
-        // we can pass name of the forgin key in the table 
+        // we can pass name of the forging key in the table
         // to override the assumption  as author_id
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
 
         // because a post have many comments
-        // we can pass name of the forgin key in the table 
+        // we can pass name of the forgin key in the table
         // to override the assumption  as author_id
         return $this->hasMany(Comment::class);
     }

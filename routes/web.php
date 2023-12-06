@@ -23,7 +23,7 @@ Route::get('ping', function () {
 
 Route::get('/', [PostController::class, 'index'])->name("home");
 
-// where is used to add constaints to the url comming
+// where is used to add constants to the url coming
 //! route model binding
 // the wildcard name must be same as we pass to the PostController class
 //                  |-----------------------|

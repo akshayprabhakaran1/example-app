@@ -25,7 +25,7 @@ class PostController extends Controller
 
         //! the variable pass to filter() will goto the
         //! query scope in the Eloquent model
-        // posts.index is a naming convention
+        // posts.index is a naming convention,
         // so we add the blade components in the posts folder
         // and name the show and index
 
