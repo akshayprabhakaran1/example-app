@@ -7,7 +7,7 @@ use App\Models\Post;
 class PostController extends Controller
 {
     // to log sql querys with there corresponding binding values
-    // DB::listen(function ($query) { 
+    // DB::listen(function ($query) {
     // log in storage->log->laravel
     // Log::info($query -> sql, $query -> bindings);
     // });
@@ -20,7 +20,7 @@ class PostController extends Controller
     public function index()
     {
 
-        //! the variable pass to filter() will goto the 
+        //! the variable pass to filter() will goto the
         //! query scope in the Elequent model
         // posts.index is a naming convention
         // so we add the blade components in the posts folder
@@ -39,4 +39,7 @@ class PostController extends Controller
             'post' => $post
         ]);
     }
+
+    // always stick to the restfull names for your functions in controller
+    // like index, show, create, store, edit, update, destroy
 }

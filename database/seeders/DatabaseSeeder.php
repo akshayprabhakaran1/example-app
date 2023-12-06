@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\User;
 use App\Models\Post;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,13 +22,8 @@ class DatabaseSeeder extends Seeder
 
         // creating one user for 5 post
         // create user with only name other fields can be random
-        $user = User::factory()->create([
-            "name" => "Akshay P M",
-        ]);
 
-        Post::factory(10)->create([
-            "user_id" => $user->id,
-        ]);
+        Comment::factory(10)->create();
 
         // $personal = Category::create([
         //     "name"=> "Personal",

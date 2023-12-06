@@ -32,10 +32,13 @@ class Post extends Model
         //! only after the get() the query will execute
 
         //! when() is a builder function
-        $query->when($filters['search'] ?? false, fn ($query, $search) =>
-            $query->where(fn($query) => 
+        $query->when(
+            $filters['search'] ?? false,
+            fn($query, $search) =>
+            $query->where(
+                fn($query) =>
                 $query->where('title', 'like', '%' . $search . '%')
-                ->and
+                    ->and
             )
         );
 
@@ -71,6 +74,15 @@ class Post extends Model
         // we can pass name of the forgin key in the table 
         // to override the assumption  as author_id
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function comments()
+    {
+
+        // because a post have many comments
+        // we can pass name of the forgin key in the table 
+        // to override the assumption  as author_id
+        return $this->hasMany(Comment::class);
     }
 
 }
