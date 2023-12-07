@@ -6,6 +6,9 @@ use App\Models\Post;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Redirector;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -20,6 +23,10 @@ class PostController extends Controller
     // with(["category", "author"])
     // we can pass it separately or as a single array
     // also without() method to avoid the grabbing of relations
+
+    // always stick to the restfull names for your functions in controller
+    // like index, show, create, store, edit, update, destroy
+
     public function index(): View|Application|Factory|\Illuminate\Contracts\Foundation\Application
     {
 
@@ -43,6 +50,32 @@ class PostController extends Controller
         ]);
     }
 
-    // always stick to the restfull names for your functions in controller
-    // like index, show, create, store, edit, update, destroy
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|View|Application
+     */
+    public function create(): Application|View|Factory|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('posts.create');
+    }
+
+    public function store(): Application|Redirector|RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    {
+
+        $attributes = request()->validate([
+            'title' => 'required',
+            'thumbnail' => 'required|image',
+            'slug' => ['required', Rule::unique('posts', 'slug')],
+            'excerpt' => 'required',
+            'body' => 'required',
+            'category_id' => ['required', Rule::exists('categories', 'id')]
+        ]);
+
+        $attributes['user_id'] = auth()->id();
+        $attributes['thumbnail'] = request()->file('thumbnail')->store('thumbnails');
+//        dd(request()->file('thumbnail')->store('thumbnails'));
+
+        Post::create($attributes);
+
+        return redirect('/');
+    }
 }
