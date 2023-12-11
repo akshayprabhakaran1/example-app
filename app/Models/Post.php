@@ -28,7 +28,7 @@ class Post extends Model
     //! query scope
     // Post::newQuery()->filter()
     // first argument is passed by the laravel
-    public function scopeFilter($query, array $filters)
+    public function scopeFilter($query, array $filters): void
     {
         //! only after the get() the query will execute
 
@@ -38,7 +38,7 @@ class Post extends Model
             fn($query, $search) =>
             $query->where(
                 fn($query) =>
-                $query->where('title', 'like', '%' . $search . '%')
+                $query->where('title', 'like', 'fv%' . $search . '%')
                     ->and
             )
         );

@@ -31,7 +31,6 @@ class SessionController extends Controller
             throw ValidationException::withMessages([
                 "email" => "Your provided credential could not be verified."
             ]);
-
         }
 
         // session fixation
